@@ -4,130 +4,55 @@
     <title>Geolocation</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <style>
-    * {
-    	box-sizing: border-box;
-    }
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: whitesmoke;
-        margin-top: 15px;
-
-      }
-      .wrapper {
-      	margin: auto;
-      	width: 90%;
-      	height: 100%;
-      }
-      input[type="text"] {
-      	margin-left: -10px;
-      	width: 98%;
-      	height: 35px;
-      	margin-bottom: 15px;
-      }
-      #bus-name , #map {
-      	margin-top: 20px;
-      	height: 80%;
-      }
-      #map {
-      	margin-left: 30px;
-   
-        width: 72%;
-        float: left;
-      	-webkit-box-shadow:
-     0px 0px 0px 2px rgba(0,0,0,0.6),
-                0px 0px 0px 14px #fff,
-                0px 0px 0px 18px rgba(0,0,0,0.2),
-                6px 6px 8px 17px #555;
-  
-     -moz-box-shadow:
-     0px 0px 0px 2px rgba(0,0,0,0.6),
-                0px 0px 0px 14px #fff,
-                0px 0px 0px 18px rgba(0,0,0,0.2),
-                6px 6px 8px 17px #555;
-  
-          box-shadow:
-     0px 0px 0px 2px rgba(0,0,0,0.6),
-                0px 0px 0px 14px #fff,
-                0px 0px 0px 18px rgba(0,0,0,0.2),
-                6px 6px 8px 17px #555;
-
-      }
-      #bus-name {
-      	  	-webkit-box-shadow:
-     0px 0px 0px 2px rgba(0,0,0,0.6),
-                0px 0px 0px 14px #7f8c8d,
-                0px 0px 0px 18px rgba(0,0,0,0.2),
-                6px 6px 8px 17px #555;
-  
-     -moz-box-shadow:
-     0px 0px 0px 2px rgba(0,0,0,0.6),
-                0px 0px 0px 14px #7f8c8d,
-                0px 0px 0px 18px rgba(0,0,0,0.2),
-                6px 6px 8px 17px #555;
-  
-          box-shadow:
-     0px 0px 0px 2px rgba(0,0,0,0.6),
-                0px 0px 0px 14px #7f8c8d,
-                0px 0px 0px 18px rgba(0,0,0,0.2),
-                6px 6px 8px 17px #555;
-
-      
-      	list-style: none;
-      	width: 20%;
-      	float: left;
-      	color: white;
-      	background-color: #34495e;
-      	z-index: 9999;
-      	margin-right: 45px;
-      	overflow: scroll;
-      }
-      #bus-name ul {
-
-      	margin: auto;
-      	list-style: none;
-       	padding-bottom: 8px;
-
-      } 
-       #bus-name h2 {
-       	text-align: center;
-       }
-      .lat, .lng {
-      	display: none;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-
-
  <body>
-
-	 <div class="wrapper">
-	 	<input type="text" id="autocomplete">
-	   <div id="bus-name">
-	   	<h2>Places</h2>
-	  	 <ul>
-	  		 <li></li>
-	  		 <li class="lat"></li>
-	  		 <li class="lng"></li>
-	  	</ul>
-	  </div>
-	 	<div id="map"></div>
-	  <div class="photos"></div>
+   <header class="main-header">
+		 <nav class="main-nav">
+			 <div class="container">
+				 <ul>
+				  	<li><h1>Hudson App</h1></li>
+					  <ul class="nav-links">	
+						  <li><a href="">home</a></li>
+						  <li><a href="">signup</a></li>
+						  <li><a href="">login</a></li>
+						  <li><a href="">logout</a></li>
+					  </ul>
+				 </ul>
+			 </div>
+		 </nav>
+	</header>
+	<div class="input-header">
+		<div class="left-content">
+			<div class="styled-select slate " >
+  			<select class="styled-select slate">
+    			<option>Here is the first option</option>
+   			  <option>The second option</option>
+    			<option>The third option</option>
+  			</select>
+			</div>
+		</div>
+		<div class="right-content">
+		<input type="text" id="autocomplete">
+		</div>
 	</div>
- 
-    <script   src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
- <script type="text/javascript" src="js/app.js"></script>
- 
+ 	<div class="wrapper">
+    <div id="bus-name">
+  	  <h2>Places</h2>
+  	  <hr>
+  	  <ul>
+  		  <li></li>
+  		   <li class="lat"></li>
+  		  <li class="lng"></li>
+  	  </ul>
+   </div>
+ 	<div id="map"></div>
+  <div class="photos"></div>
+	</div>
+	<script   src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous">
+	  </script>
+	 <script type="text/javascript" src="js/app.js"></script>
 
-
-  
   </body>
-</html>
-   
-
-
-</body>
-</html>
+ </html>
