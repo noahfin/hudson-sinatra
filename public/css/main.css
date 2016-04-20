@@ -121,7 +121,7 @@
         display: block
       }
       .left-content {
-        padding: 10px 0px 0px 70px;
+        padding: 12px 0px 0px 70px;
        
         width: 25%;
         float: left;
@@ -137,7 +137,7 @@
      .styled-select.slate select {
       border: 1px solid #ccc;
       font-size: 16px;
-      height: 34px;
+      height: 30px;
        width: 268px;
   }
       #bus-name ul {
