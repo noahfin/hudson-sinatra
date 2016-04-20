@@ -1,77 +1,95 @@
 "use strict";
 (function () {
 	console.log("js is loaded")
-  $.ajax({
-       url: '/place' 
-     })
-     .done(function(json) {
-     	$.each(json.results, function( index, value ) {
-     		console.log(value.name);
-     		console.log (value.geometry.location.lat)
-     		console.log(value.geometry.location.lng)
-     		 var $ul = $('<ul class="place-name"></ul>');
-     		 var $p= $('<p class="h5"></p>');
-     		 var $lat = $('<li class="lat"></li>');
-     		 var $lng = $('<li class="lng"></li>')
-     		 $p.html(value.name);
-     		 $lat.html(value.geometry.location.lat);
-     		 $lng.html(value.geometry.location.lng);
-
-     		$ul.append($p);
-     		$ul.append($lat);
-     		$ul.append($lng);
-     		$('#bus-name').append($ul);
-     		
-     		$('#bus-name').append($ul);
-
-
+$.post('place', { type: "art_gallery", field2 : "hello2"}, 
+  function(json){
+		$.each(json.results, function( index, value ) {
+   		console.log(value.name);
+   		console.log (value.geometry.location.lat)
+   		console.log(value.geometry.location.lng)
+   		  var $ul = $('<ul class="place-name"></ul>');
+   		  var $p= $('<p class="h5"></p>');
+   		  var $lat = $('<li class="lat"></li>');
+   		  var $lng = $('<li class="lng"></li>')
+   		  $p.html(value.name);
+   		  $lat.html(value.geometry.location.lat);
+   		  $lng.html(value.geometry.location.lng);
+	   		$ul.append($p);
+	   		$ul.append($lat);
+	   		$ul.append($lng);
+	   		$('#bus-name').append($ul);
+	   		$('#bus-name').append($ul);
+   	})
      	
-     	})
-     	 // console.log(json.results.each)
-      })
-      .fail(function() {
-        alert("Ajax failed to fetch data");
-      })
+ });
 
-      //google maps api code
+   function getPlaceType(typeVal){
+   	 $.post('place', { type: typeVal, field2 : "hello2"}, 
+  function(json){
+		$.each(json.results, function( index, value ) {
+   		console.log(value.name);
+   		console.log (value.geometry.location.lat)
+   		console.log(value.geometry.location.lng)
+   		  var $ul = $('<ul class="place-name"></ul>');
+   		  var $p= $('<p class="h5"></p>');
+   		  var $lat = $('<li class="lat"></li>');
+   		  var $lng = $('<li class="lng"></li>')
+   		  $p.html(value.name);
+   		  $lat.html(value.geometry.location.lat);
+   		  $lng.html(value.geometry.location.lng);
+	   		$ul.append($p);
+	   		$ul.append($lat);
+	   		$ul.append($lng);
+	   		$('#bus-name').append($ul);
+	   		$('#bus-name').append($ul);
+   	})
+     	
+ });
+ }
+
+
+
+
+
+ 	$('.type-select').change(function(){
+ 		$(".place-name").remove();
+ 		 getPlaceType($(this).val());
+ 	})
+
+  //google maps api code
       var mapOptions = {
-    center: new google.maps.LatLng(41.65053,-73.932648),
-    zoom: 12,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-};
+   		 center: new google.maps.LatLng(41.65053,-73.932648),
+   		 zoom: 12,
+    	 mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
 
- $(document).on('click', '.place-name', getLocation);
- function getLocation() {
- 	 console.log("This method works!");
- 	 var thisChildren = $(this).children();
- 	 console.log(thisChildren[2].innerHTML);
-   var pName  = thisChildren[0].innerHTML;
-	 var latVal = thisChildren[1].innerHTML;
-	 var lngVal = thisChildren[2].innerHTML;
+$(document).on('click', '.place-name', getLocation);
+  function getLocation() {
+ 	  var thisChildren = $(this).children();
+    var pName  = thisChildren[0].innerHTML;
+	  var latVal = thisChildren[1].innerHTML;
+	  var lngVal = thisChildren[2].innerHTML;
 
-			console.log(parseInt(latVal));
-			console.log(parseInt(lngVal));
 			 var mapOptions = {
-    				center: new google.maps.LatLng(latVal,lngVal),
-    				zoom: 10,
-   				 mapTypeId: google.maps.MapTypeId.ROADMAP
+    			center: new google.maps.LatLng(latVal,lngVal),
+    			zoom: 10,
+   		  	mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
+			
 			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
 			var markerOptions = {
-		position: new google.maps.LatLng(latVal, lngVal)
-		};
+				position: new google.maps.LatLng(latVal, lngVal)
+			};
 			var marker = new google.maps.Marker(markerOptions);
 			marker.setMap(map);
 			var infoWindowOptions = {
     	content: pName
-		};
+			};
 		var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 		google.maps.event.addListener(marker,'click',function(e){
-  
-  infoWindow.open(map, marker);
-
-});
+  		infoWindow.open(map, marker);
+		});
 		
 };
 

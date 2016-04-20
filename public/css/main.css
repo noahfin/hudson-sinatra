@@ -133,13 +133,18 @@
         margin-left: 30px;
 
       }
+      .place-name p {
+        margin: 0;
+        padding: 0;
+        margin-left: -15px;
+      }
    
      .styled-select.slate select {
-      border: 1px solid #ccc;
-      font-size: 16px;
-      height: 30px;
-       width: 268px;
-  }
+        border: 1px solid #ccc;
+        font-size: 16px;
+        height: 30px;
+        width: 268px;
+     }
       #bus-name ul {
        	margin: auto;
       	list-style: none;

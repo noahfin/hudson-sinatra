@@ -7,24 +7,23 @@ module  Hudson
 			erb :index
 
 		end 
-		get "/:places" do
+		get "/places" do
 			content_type :json
-		  place = params[:location]
+		  place = "airport"
 		  key = ENV['PLACES_KEY']
-			uri = URI.encode("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=41.65053,-73.932648&radius=50000&type=doctor&key=" + key) 
+
+			uri = URI.encode("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=41.65053,-73.932648&radius=50000&type="+ place +"&key=" + key) 
       @location = HTTParty.get(uri).to_json 
-     
 
     end
 
-    get "/:lat/:long" do
+    post "/place" do
 			content_type :json
-		  place = params[:location]
+		  place = params['type']
 		  key = ENV['PLACES_KEY']
-			uri = URI.encode("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&name=cruise&key=" + key) 
+			uri = URI.encode("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=41.65053,-73.932648&radius=50000&type="+ place +"&key=" + key) 
       @places = HTTParty.get(uri).to_json 
-     		erb :data
-   
+     		
     end
 	end
 end

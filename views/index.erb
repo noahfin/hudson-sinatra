@@ -5,13 +5,15 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="globe-48-195556.png">
+    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'/ >
   </head>
  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
  <body>
    <header class="main-header">
 		 <nav class="main-nav">
 			 <div class="container">
-				 <ul>
+				 <ul >
 				  	<li><h1>Hudson App</h1></li>
 					  <ul class="nav-links">	
 						  <li><a href="">home</a></li>
@@ -25,8 +27,8 @@
 	</header>
 	<div class="input-header">
 		<div class="left-content">
-			<div class="styled-select slate " >
-  			<select class="styled-select slate">
+			<form class="styled-select slate " >
+  			<select class="styled-select slate type-select" onchange=>
     			<option>Select A type of bussiness</option>
     			<option>accounting</option>
 					<option>airport</option>
@@ -125,7 +127,7 @@
 					<option>veterinary_care</option>
 					<option>zoo</option>
   			</select>
-			</div>
+			</form>
 		</div>
 		<div class="right-content">
 		<input type="text" id="autocomplete">
@@ -135,7 +137,7 @@
     <div id="bus-name">
   	  <h2>Places</h2>
   	  <hr>
-  	  <ul>
+  	  <ul id="places-ul">
   		  <li></li>
   		   <li class="lat"></li>
   		  <li class="lng"></li>
