@@ -27,11 +27,8 @@
 	   		$('#bus-name').append($ul);
    	})
      	
- });
- }
-
-
-
+  });
+}
 
 
  	$('.type-select').change(function(){
@@ -52,47 +49,43 @@ $(document).on('click', '.place-name', getLocation);
     var pName  = thisChildren[0].innerHTML;
 	  var latVal = thisChildren[1].innerHTML;
 	  var lngVal = thisChildren[2].innerHTML;
-	  var idVal = thisChildren[3].innerHTML;
+	  var idVal =  thisChildren[3].innerHTML;
 	  console.log(idVal);
 
-			 var mapOptions = {
-    			center: new google.maps.LatLng(latVal,lngVal),
-    			zoom: 11,
-   		  	mapTypeId: google.maps.MapTypeId.ROADMAP
+	  var mapOptions = {
+			center: new google.maps.LatLng(latVal,lngVal),
+			zoom: 11,
+		  	mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+
+		var request = {
+		  placeId: idVal
+		};
+
+		var service = new google.maps.places.PlacesService(map);
+		service.getDetails(request, callback);
+
+	  function callback(place, status) {
+			console.log(place);
+		  if (status == google.maps.places.PlacesServiceStatus.OK) {
+
+				var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+				var markerOptions = {
+					position: new google.maps.LatLng(latVal, lngVal)
 				};
+				var marker = new google.maps.Marker(markerOptions);
+				marker.setMap(map);
 
-				var request = {
-				  placeId: idVal
+				var infoWindowOptions = {
+					content: place.formatted_address + '<br><br>' + place.formatted_phone_number
 				};
-
-				var service = new google.maps.places.PlacesService(map);
-				service.getDetails(request, callback);
-
-				function callback(place, status) {
-					console.log(place);
-				  if (status == google.maps.places.PlacesServiceStatus.OK) {
-				//createMarker(place);
-
-			var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-			var markerOptions = {
-				position: new google.maps.LatLng(latVal, lngVal)
-			};
-			var marker = new google.maps.Marker(markerOptions);
-			marker.setMap(map);
-
-			var infoWindowOptions = {
-    	content: place.formatted_address + '<br><br>' + place.formatted_phone_number
-			};
-			var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
-			google.maps.event.addListener(marker,'click',function(e){
-	  		infoWindow.open(map, marker);
-			});
-		  }
-	}
-
-			
-		
+				var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+				google.maps.event.addListener(marker,'click',function(e){
+					infoWindow.open(map, marker);
+				});
+	 	  } 
+	 }
 };
 
  

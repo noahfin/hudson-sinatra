@@ -47,18 +47,18 @@ html, body {
 }
 .input-header {    
   margin: -1px 0px 10px;
-  height: 65px;
+  height: 60px;
   background: #00897B;
 }
 input[type="text"] {
-  margin-top: 10px;
+  margin-top: 8px;
   width: 92%;
   padding-left: 10px;
   height: 35px;
 }
 #bus-name , #map {
-  margin-top: 0px;
-  height: 80%;
+  margin-top: 10px;
+  height: 75%;
 }
 #map {
   margin-left: 30px;
@@ -112,9 +112,16 @@ div.right-content {
   color: white;
 }
 hr {
-  border: 1px solid #fff;
+  border: 1px solid #E0E0E0;
   width: 100%;
 }
 .lat, .lng , .place-id{
   display: none;
+}
+footer {
+  position: absolute;
+  height: 30px;
+  width: 100%;
+  bottom: 0;
+  background: #667272;
 }
