@@ -3,7 +3,7 @@
 	console.log("js is loaded")
    getPlaceType("art_gallery");
 
-   function getPlaceType(typeVal){
+function getPlaceType(typeVal){
    	 $.post('place', { type: typeVal, field2 : "hello2"}, 
   function(json){
 		$.each(json.results, function( index, value ) {
@@ -77,8 +77,20 @@ $(document).on('click', '.place-name', getLocation);
 				var marker = new google.maps.Marker(markerOptions);
 				marker.setMap(map);
 
+        console.log( place.reference);
+        $.get('photos/'+ place.reference, 
+          function(json){
+              console.log(json);
+          // var $div = $('<div class="pic"></div>');
+          // $div.html(json);
+          //  $(".photos").append($div);
+      
+          });
+
+
+
 				var infoWindowOptions = {
-					content: place.formatted_address + '<br><br>' + place.formatted_phone_number
+					content: '<img src="' + '">' +place.formatted_address + '<br><br>' + place.formatted_phone_number
 				};
 				var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 				google.maps.event.addListener(marker,'click',function(e){
