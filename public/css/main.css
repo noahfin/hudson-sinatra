@@ -67,6 +67,7 @@ input[type="text"] {
    width: 72%;
    margin-left: 30px;
    float: left;
+   position: relative;
 }
 #map {
  height: 100%;
@@ -125,9 +126,12 @@ hr {
 .lat, .lng , .place-id, .photo-id{
   display: none;
 }
+
 .photos {
-  margin-top: -75px;
-  margin-left: 75px;
+ position: absolute;
+ top: 0;
+ left: 0;
+z-index: 99999999;
 }
 footer {
   position: absolute;
@@ -135,4 +139,5 @@ footer {
   width: 100%;
   bottom:  0;
   background: #667272;
+ 
 }
