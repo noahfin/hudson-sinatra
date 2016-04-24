@@ -9,13 +9,19 @@ function getPlaceType(typeVal){
 		$.each(json.results, function( index, value ) {
    		console.log(value.name);
    		console.log (value.geometry.location.lat)
-   		console.log(value.geometry.location.lng)
-   		  var $ul = $('<ul class="place-name"></ul>');
+   		console.log(value.geometry.location.lng) 
+        		  var $ul = $('<ul class="place-name"></ul>');
    		  var $p= $('<p class="h5"></p>');
    		  var $lat = $('<li class="lat"></li>');
    		  var $lng = $('<li class="lng"></li>')
    		  var $id = $('<li class="place-id"></li>')
+        var $photo_id = $('<li class="photo-id"></li>')
    		  $p.html(value.name);
+        if (value.photos != undefined){
+            console.log(value.photos[0].photo_reference);
+           $photo_id.html(value.photos[0].photo_reference)
+        }
+        
    		  $lat.html(value.geometry.location.lat);
    		  $lng.html(value.geometry.location.lng);
    		  $id.html(value.place_id);
@@ -23,7 +29,7 @@ function getPlaceType(typeVal){
 	   		$ul.append($lat);
 	   		$ul.append($lng);
 	   		$ul.append($id);
-	   		$('#bus-name').append($ul);
+        $ul.append($photo_id);
 	   		$('#bus-name').append($ul);
    	})
      	
@@ -50,7 +56,9 @@ $(document).on('click', '.place-name', getLocation);
 	  var latVal = thisChildren[1].innerHTML;
 	  var lngVal = thisChildren[2].innerHTML;
 	  var idVal =  thisChildren[3].innerHTML;
-	  console.log(idVal);
+    var photo_ref =  thisChildren[4].innerHTML;
+	  console.log("photo ref");
+    console.log(photo_ref);
 
 	  var mapOptions = {
 			center: new google.maps.LatLng(latVal,lngVal),
@@ -77,13 +85,19 @@ $(document).on('click', '.place-name', getLocation);
 				var marker = new google.maps.Marker(markerOptions);
 				marker.setMap(map);
 
-        console.log( place.reference);
-        $.get('photos/'+ place.reference, 
+       
+        $.get('photos/'+ photo_ref, 
           function(json){
               console.log(json);
-          // var $div = $('<div class="pic"></div>');
-          // $div.html(json);
-          //  $(".photos").append($div);
+              if (json == "The file was successfully uploaded!") {
+                 // var $img = $('<img src="uploads/:photo_reference.png">');
+                var d = new Date();
+              $("#place-photo").attr("src", "uploads/" +photo_ref+".png");
+                 
+              }
+         
+         
+          
       
           });
 

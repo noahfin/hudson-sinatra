@@ -122,11 +122,12 @@ hr {
   border: 1px solid #E0E0E0;
   width: 100%;
 }
-.lat, .lng , .place-id{
+.lat, .lng , .place-id, .photo-id{
   display: none;
 }
 .photos {
-  margin-top: 25px;
+  margin-top: -75px;
+  margin-left: 75px;
 }
 footer {
   position: absolute;
