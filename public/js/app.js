@@ -1,5 +1,28 @@
 "use strict";
 (function () {
+  function codeLatLng( locString,callback) {
+    var geoLoc = {
+      intLat: 0.0,
+      intLng: 0.0
+    }
+     var geocoder = new google.maps.Geocoder();
+     var address = locString;
+     var startLocation =  geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+         geoLoc.intLat = parseFloat(results[0].geometry.location.lat());
+         geoLoc.intLng = parseFloat(results[0].geometry.location.lng());
+         console.log(results)
+           callback(geoLoc);
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+       return geoLoc;
+    });
+   }
+   
+
+ console.log();
+  /// 
 	console.log("js is loaded")
    getPlaceType("art_gallery");
 
@@ -43,13 +66,24 @@ function getPlaceType(typeVal){
  	})
 
   //google maps api code
+     codeLatLng('2265 South Road, Poughkeepsie, NY', function(addr){
+      console.log('the callback is being called');
+      console.log(addr);
       var mapOptions = {
-   		 center: new google.maps.LatLng(41.65053,-73.932648),
+   		 center: new google.maps.LatLng(addr.intLat,addr.intLng),
    		 zoom: 12,
     	 mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
-
+      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      var markerOptions = {
+      position: new google.maps.LatLng(addr.intLat, addr.intLng)
+};
+var marker = new google.maps.Marker(markerOptions);
+marker.setMap(map);
+    
+    });
 $(document).on('click', '.place-name', getLocation);
+
   function getLocation() {
  	  var thisChildren = $(this).children();
     var pName  = thisChildren[0].innerHTML;
@@ -101,8 +135,6 @@ $(document).on('click', '.place-name', getLocation);
       
           });
 
-
-
 				var infoWindowOptions = {
 					content: '<img src="' + '">' +place.formatted_address + '<br><br>' + place.formatted_phone_number
 				};
@@ -114,47 +146,60 @@ $(document).on('click', '.place-name', getLocation);
 	 }
 };
 
+  $('.right').click(function(e){
+    console.log("the littel guy has been clicked")
+    e.preventDefault()
+   
+  $( ".chnage-loc" ).slideDown( 1000, function() {
+    $( this )
+      .filter( ".middle" )
+        .css( "background", "yellow" )
+        .focus();
+   
+
+});
  
-var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-
-var markerOptions = {
-    position: new google.maps.LatLng(41.69463200000001, -73.935952)
-};
-var marker = new google.maps.Marker(markerOptions);
-marker.setMap(map);
-
-
-
-
-var acOptions = {
-  types: ['establishment']
-};
-var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
-autocomplete.bindTo('bounds',map);
-var infoWindow = new google.maps.InfoWindow();
-var marker = new google.maps.Marker({
-  map: map
-});
-
-google.maps.event.addListener(autocomplete, 'place_changed', function() {
-	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  infoWindow.close();
-  var place = autocomplete.getPlace();
-  if (place.geometry.viewport) {
-    map.fitBounds(place.geometry.viewport);
-  } else {
-    map.setCenter(place.geometry.location);
-    map.setZoom(17);
-  }
-  marker.setPosition(place.geometry.location);
-  infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
-  infoWindow.open(map, marker);
-  google.maps.event.addListener(marker,'click',function(e){
-
-    infoWindow.open(map, marker);
-
+    
   });
-});
+// $('#autocomplete').focus(function(){
+
+//   var mapOptions = {
+//          center: new google.maps.LatLng(41.69463200000001, -73.935952),
+//          zoom: 12,
+//          mapTypeId: google.maps.MapTypeId.ROADMAP
+//         };
+      
+//   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+//   var acOptions = {
+//     types: ['establishment']
+//   };
+//   var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
+//   autocomplete.bindTo('bounds',map);
+//   var infoWindow = new google.maps.InfoWindow();
+//   var marker = new google.maps.Marker({
+//     map: map
+//   });
+
+//   google.maps.event.addListener(autocomplete, 'place_changed', function() {
+//   	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+//     infoWindow.close();
+//     var place = autocomplete.getPlace();
+//     if (place.geometry.viewport) {
+//       map.fitBounds(place.geometry.viewport);
+//     } else {
+//       map.setCenter(place.geometry.location);
+//       map.setZoom(17);
+//     }
+//     marker.setPosition(place.geometry.location);
+//     infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
+//     infoWindow.open(map, marker);
+//     google.maps.event.addListener(marker,'click',function(e){
+
+//       infoWindow.open(map, marker);
+//     });
+//   });
+// });
 
 
 })();

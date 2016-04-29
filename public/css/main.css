@@ -83,6 +83,55 @@ input[type="text"] {
   margin-right: 45px;
   overflow: scroll;
 }
+.reveal-btn {
+  position: relative;
+  right: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background: #777;
+}
+.right{
+  float: right;
+}
+.reveal-btn a {
+  position: absolute;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align: center;
+  padding-top: 4px;
+  width: 10px;
+  height: 10px;
+  top: 5px;
+  left: 5px;
+}
+.chnage-loc{
+  width: 100%;
+   padding: 0 0;
+   margin: 0 0;
+}
+.chnage-loc li{
+
+
+}.change-loc-in ,.change-loc-submit{
+  width: 100%;
+}
+.change-loc-in input[type="text"] {
+  width: 110%;
+}
+.change-loc-submit {
+  padding: 0;
+}
+.send-btn {
+ margin-top: 10px;
+  width: 100%;
+  height: 36px;
+  border-radius: 0;
+  background: #000;
+  color: white;
+  font-size: 20px;
+ 
+}
 .left-content,  .right-content{
   margin-top: 5px;
   display: block;
@@ -118,20 +167,25 @@ div.right-content {
 #bus-name h2 {
   text-align: center;
   color: white;
+  margin-top: 0px;
 }
 hr {
   border: 1px solid #E0E0E0;
   width: 100%;
 }
-.lat, .lng , .place-id, .photo-id{
+.lat, .lng , .place-id, .photo-id, .chnage-loc{
   display: none;
 }
 
 .photos {
  position: absolute;
  top: 0;
- left: 0;
-z-index: 99999999;
+ right: 0;
+ z-index: 99999999;
+}
+.photos img {
+    opacity: 0.8;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
 }
 footer {
   position: absolute;
