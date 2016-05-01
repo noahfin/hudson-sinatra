@@ -20,8 +20,13 @@ module  Hudson
     post "/place" do
 			content_type :json
 		  place = params['type']
+		  lat =  params['lat']
+		  lng =  params['lng']
+		   puts 'Look for this statment, then look below'
+		   puts lat
+		   puts lng
 		  key = ENV['PLACES_KEY']
-			uri = URI.encode("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=41.65053,-73.932648&radius=50000&type="+ place +"&key=" + key) 
+			uri = URI.encode("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + lng +"&radius=50000&type="+ place +"&key=" + key) 
       @places = HTTParty.get(uri).to_json 
      		
     end

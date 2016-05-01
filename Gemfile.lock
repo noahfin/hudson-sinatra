@@ -29,3 +29,6 @@ DEPENDENCIES
   httparty
   pry
   sinatra
+
+BUNDLED WITH
+   1.12.1

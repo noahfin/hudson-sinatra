@@ -26,8 +26,20 @@
 	console.log("js is loaded")
    getPlaceType("art_gallery");
 
-function getPlaceType(typeVal){
-   	 $.post('place', { type: typeVal, field2 : "hello2"}, 
+function getPlaceType(typeVal, addr) {
+  var lat;
+  var lng;
+  if ( addr === undefined) {
+     lat = 41.65053;
+     lng = -73.932648;
+     console.log('Location is undefined, so it is using hardcododing! ');
+     console.log(lat)
+  } else {
+     lat = addr.intLat
+     lng = addr.intLng;
+  }
+
+   	 $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
   function(json){
 		$.each(json.results, function( index, value ) {
    		console.log(value.name);
@@ -66,22 +78,23 @@ function getPlaceType(typeVal){
  	})
 
   //google maps api code
-     codeLatLng('2265 South Road, Poughkeepsie, NY', function(addr){
-      console.log('the callback is being called');
-      console.log(addr);
-      var mapOptions = {
-   		 center: new google.maps.LatLng(addr.intLat,addr.intLng),
-   		 zoom: 12,
-    	 mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-      var markerOptions = {
-      position: new google.maps.LatLng(addr.intLat, addr.intLng)
-};
-var marker = new google.maps.Marker(markerOptions);
-marker.setMap(map);
+     //call the function that gets and sets cords 
+codeLatLng('2265 South Road, Poughkeepsie, NY', function(addr){
+  console.log('the callback is being called');
+  console.log(addr);
+  var mapOptions = {
+		 center: new google.maps.LatLng(addr.intLat,addr.intLng),
+		 zoom: 12,
+	 mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+  var markerOptions = {
+  position: new google.maps.LatLng(addr.intLat, addr.intLng)
+  };
+  var marker = new google.maps.Marker(markerOptions);
+  marker.setMap(map);
     
-    });
+});
 $(document).on('click', '.place-name', getLocation);
 
   function getLocation() {
@@ -124,14 +137,10 @@ $(document).on('click', '.place-name', getLocation);
           function(json){
               console.log(json);
               if (json == "The file was successfully uploaded!") {
-                 // var $img = $('<img src="uploads/:photo_reference.png">');
-                var d = new Date();
+               
               $("#place-photo").attr("src", "uploads/" +photo_ref+".png");
                  
               }
-         
-         
-          
       
           });
 
@@ -150,56 +159,136 @@ $(document).on('click', '.place-name', getLocation);
     console.log("the littel guy has been clicked")
     e.preventDefault()
    
-  $( ".chnage-loc" ).slideDown( 1000, function() {
-    $( this )
-      .filter( ".middle" )
+    $( ".chnage-loc" ).slideDown( 1000, function() {
+      $( this )
+        .filter( ".middle" )
+          .css( "background", "yellow" )
+          .focus(); 
+    });
+  });
+
+  $('.left').click(function(e){
+    console.log("the littel guy has been clicked")
+    e.preventDefault()
+   
+    $( ".chnage-loc" ).slideUp( 1000, function() {
+      $( this )
+        .filter( ".middle" )
         .css( "background", "yellow" )
         .focus();
    
-
-});
- 
-    
+    });
   });
-// $('#autocomplete').focus(function(){
+  
+  
 
-//   var mapOptions = {
-//          center: new google.maps.LatLng(41.69463200000001, -73.935952),
-//          zoom: 12,
-//          mapTypeId: google.maps.MapTypeId.ROADMAP
-//         };
+  $('.send-btn').on('click', function() {
+    var $location = $('#location-input').val();
+     $('#location-input').html(' ');
+    console.log($location);
+    codeLatLng($location, function(addr){
       
-//   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      console.log('the callback is being called');
+    
+      console.log(addr);
+      var mapOptions = {
+         center: new google.maps.LatLng(addr.intLat,addr.intLng),
+         zoom: 12,
+       mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      var markerOptions = {
+      position: new google.maps.LatLng(addr.intLat, addr.intLng)
+      };
+      var marker = new google.maps.Marker(markerOptions);
+      marker.setMap(map);      
 
-//   var acOptions = {
-//     types: ['establishment']
-//   };
-//   var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
-//   autocomplete.bindTo('bounds',map);
-//   var infoWindow = new google.maps.InfoWindow();
-//   var marker = new google.maps.Marker({
-//     map: map
-//   });
+    var lat;
+   var lng;
+   var typeVal = "art_gallery"
+  if ( addr === undefined) {
+     lat = 41.65053;
+     lng = -73.932648;
+     console.log('Location is undefined, so it is using hardcododing! ');
+     console.log(lat)
+  } else {
+     lat = addr.intLat
+     lng = addr.intLng;
+  }
+    
+     $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
+  function(json){
+    $(".place-name").remove();
+    $.each(json.results, function( index, value ) {
+      console.log(value.name);
+      console.log (value.geometry.location.lat)
+      console.log(value.geometry.location.lng) 
+              var $ul = $('<ul class="place-name"></ul>');
+        var $p= $('<p class="h5"></p>');
+        var $lat = $('<li class="lat"></li>');
+        var $lng = $('<li class="lng"></li>')
+        var $id = $('<li class="place-id"></li>')
+        var $photo_id = $('<li class="photo-id"></li>')
+        $p.html(value.name);
+        if (value.photos != undefined){
+            console.log(value.photos[0].photo_reference);
+           $photo_id.html(value.photos[0].photo_reference)
+        }
+        
+        $lat.html(value.geometry.location.lat);
+        $lng.html(value.geometry.location.lng);
+        $id.html(value.place_id);
+        $ul.append($p);
+        $ul.append($lat);
+        $ul.append($lng);
+        $ul.append($id);
+        $ul.append($photo_id);
+        $('#bus-name').append($ul);
+    })
+      
+  });
 
-//   google.maps.event.addListener(autocomplete, 'place_changed', function() {
-//   	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-//     infoWindow.close();
-//     var place = autocomplete.getPlace();
-//     if (place.geometry.viewport) {
-//       map.fitBounds(place.geometry.viewport);
-//     } else {
-//       map.setCenter(place.geometry.location);
-//       map.setZoom(17);
-//     }
-//     marker.setPosition(place.geometry.location);
-//     infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
-//     infoWindow.open(map, marker);
-//     google.maps.event.addListener(marker,'click',function(e){
+  })
+  });
+$('#autocomplete').focus(function(){
 
-//       infoWindow.open(map, marker);
-//     });
-//   });
-// });
+  var mapOptions = {
+         center: new google.maps.LatLng(41.69463200000001, -73.935952),
+         zoom: 12,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+      
+  var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+  var acOptions = {
+    types: ['establishment']
+  };
+  var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'),acOptions);
+  autocomplete.bindTo('bounds',map);
+  var infoWindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map
+  });
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+  	var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    infoWindow.close();
+    var place = autocomplete.getPlace();
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);
+    }
+    marker.setPosition(place.geometry.location);
+    infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
+    infoWindow.open(map, marker);
+    google.maps.event.addListener(marker,'click',function(e){
+
+      infoWindow.open(map, marker);
+    });
+  });
+});
 
 
 })();
