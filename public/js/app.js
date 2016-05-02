@@ -73,7 +73,7 @@ function getPlaceType(typeVal, addr) {
         $ul.append($photo_id);
 	   		$('#bus-name').append($ul);
    	})
-     	
+     	 addCsvButton(); 
   });
 }
 
@@ -255,16 +255,22 @@ $(document).on('click', '.place-name', getLocation);
         $('#bus-name').append($ul);
 
     })
-        var $a = $('<a id="dataLink" ></a>');
-        var $button = $('<button class="csv-btn">Download CSV</button>');
-        $('#bus-name').append($button);
-        $('#bus-name').append($a);
-
+      addCsvButton(); 
    });
 
   })
   });
  
+ function addCsvButton() {
+  if ( $('.csv-btn')){
+     $('.csv-btn').remove();
+    }
+    var $a = $('<a id="dataLink" ></a>');
+    var $button = $('<button class="csv-btn">Download CSV</button>');
+    $('#bus-name').append($button);
+    $('#bus-name').append($a);
+        
+ }
 
 //start of code to export the list as a csv file
 $('body').on('click', '.csv-btn', loopArray);
