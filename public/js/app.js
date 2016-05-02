@@ -1,6 +1,7 @@
 "use strict";
 (function () {
   var placeDate = [ ];
+  var currentLocation = {};
 
   
 
@@ -33,14 +34,14 @@
 function getPlaceType(typeVal, addr) {
   var lat;
   var lng;
-  if ( addr === undefined) {
+  if ( currentLocation.lat === undefined) {
      lat = 41.65053;
      lng = -73.932648;
      console.log('Location is undefined, so it is using hardcododing! ');
-     console.log(lat)
+     console.log(lat);
   } else {
-     lat = addr.intLat
-     lng = addr.intLng;
+     lat = currentLocation.lat;
+     lng = currentLocation.lng;
   }
 
    	 $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
@@ -76,6 +77,7 @@ function getPlaceType(typeVal, addr) {
 
 
  	$('.type-select').change(function(){
+     console.log(currentLocation);
  		$(".place-name").remove();
  		 getPlaceType($(this).val());
  	})
@@ -214,9 +216,12 @@ $(document).on('click', '.place-name', getLocation);
      lng = -73.932648;
      console.log('Location is undefined, so it is using hardcododing! ');
      console.log(lat)
-  } else {
+  } else { // here is where we need to update placedata
      lat = addr.intLat
      lng = addr.intLng;
+     currentLocation.lat = addr.intLat;
+     currentLocation.lng = addr.intLng;
+
   }
     
      $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
@@ -225,7 +230,7 @@ $(document).on('click', '.place-name', getLocation);
     placeDate = [];
     $.each(json.results, function( index, value ) {
     
-              var $ul = $('<ul class="place-name"></ul>');
+        var $ul = $('<ul class="place-name"></ul>');
         var $p= $('<p class="h5"></p>');
         var $lat = $('<li class="lat"></li>');
         var $lng = $('<li class="lng"></li>')
@@ -261,10 +266,7 @@ $(document).on('click', '.place-name', getLocation);
 
 //start of code to export the list as a csv file
 $('body').on('click', '.csv-btn', loopArray);
-   
-    
-    
-    
+     
     var $link = $("#dataLink");
     var name;
     var id;

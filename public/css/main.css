@@ -173,13 +173,15 @@ div.right-content {
   text-align: center;
   margin: auto;
   height: 35px;
+  width: 75%;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   background: #9bcc5a;
   border: none;
   border-radius: 50px;
   font-weight: lighter;
-  margin-left: 55px;
+  margin-left: 30px;
+  margin-bottom: 20px;
 }
 hr {
   border: 1px solid #E0E0E0;
