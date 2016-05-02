@@ -1,5 +1,9 @@
 "use strict";
 (function () {
+  var placeDate = [ ];
+
+  
+
   function codeLatLng( locString,callback) {
     var geoLoc = {
       intLat: 0.0,
@@ -42,15 +46,13 @@ function getPlaceType(typeVal, addr) {
    	 $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
   function(json){
 		$.each(json.results, function( index, value ) {
-   		console.log(value.name);
-   		console.log (value.geometry.location.lat)
-   		console.log(value.geometry.location.lng) 
-        		  var $ul = $('<ul class="place-name"></ul>');
+        var $ul = $('<ul class="place-name"></ul>');
    		  var $p= $('<p class="h5"></p>');
    		  var $lat = $('<li class="lat"></li>');
    		  var $lng = $('<li class="lng"></li>')
    		  var $id = $('<li class="place-id"></li>')
         var $photo_id = $('<li class="photo-id"></li>')
+        
    		  $p.html(value.name);
         if (value.photos != undefined){
             console.log(value.photos[0].photo_reference);
@@ -60,6 +62,7 @@ function getPlaceType(typeVal, addr) {
    		  $lat.html(value.geometry.location.lat);
    		  $lng.html(value.geometry.location.lng);
    		  $id.html(value.place_id);
+
 	   		$ul.append($p);
 	   		$ul.append($lat);
 	   		$ul.append($lng);
@@ -219,10 +222,9 @@ $(document).on('click', '.place-name', getLocation);
      $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
   function(json){
     $(".place-name").remove();
+    placeDate = [];
     $.each(json.results, function( index, value ) {
-      console.log(value.name);
-      console.log (value.geometry.location.lat)
-      console.log(value.geometry.location.lng) 
+    
               var $ul = $('<ul class="place-name"></ul>');
         var $p= $('<p class="h5"></p>');
         var $lat = $('<li class="lat"></li>');
@@ -234,7 +236,7 @@ $(document).on('click', '.place-name', getLocation);
             console.log(value.photos[0].photo_reference);
            $photo_id.html(value.photos[0].photo_reference)
         }
-        
+        placeDate[index] = {name: value.name, id: value.place_id};
         $lat.html(value.geometry.location.lat);
         $lng.html(value.geometry.location.lng);
         $id.html(value.place_id);
@@ -244,12 +246,94 @@ $(document).on('click', '.place-name', getLocation);
         $ul.append($id);
         $ul.append($photo_id);
         $('#bus-name').append($ul);
+
     })
-      
-  });
+        var $a = $('<a id="dataLink" ></a>');
+        var $button = $('<button class="csv-btn">Download CSV</button>');
+        $('#bus-name').append($button);
+        $('#bus-name').append($a);
+
+   });
 
   })
   });
+ 
+
+//start of code to export the list as a csv file
+$('body').on('click', '.csv-btn', loopArray);
+   
+    
+    
+    
+    var $link = $("#dataLink");
+    var name;
+    var id;
+    var address; 
+    var addressArray = []
+    var csv = " ";  
+    var x = 0;
+    function loopArray() {
+    if (x !==20){ 
+     if(x === 10 || x === 15) {
+     setTimeout(function(){
+
+      var request = {
+        placeId: placeDate[x].id
+       };
+     var service = new google.maps.places.PlacesService(map);
+          service.getDetails(request, callback2);
+
+     }, 2500);
+     }
+    console.log(placeDate[x].id)
+    var request = {
+        placeId: placeDate[x].id
+       };
+     var service = new google.maps.places.PlacesService(map);
+          service.getDetails(request, callback2);
+          
+    } else {
+      console.log("we made it ");
+       for (var i=0; i<addressArray.length; i++) {
+               
+                csv +=   placeDate[i].name+ "," + addressArray[i] + "\n"; 
+               };
+               console.log(csv);
+               $("#dataLink").attr("href", 'data:Application/octet-stream,' + encodeURIComponent(csv))[0].click();
+    }
+
+}
+
+ function callback2(place, status) {
+      console.log(place);
+      if (status == google.maps.places.PlacesServiceStatus.OK){
+        console.log(place.formatted_address);
+        addressArray.push(place.formatted_address);
+          if(x !== addressArray.length) {
+              x++;
+              console.log(x);
+              loopArray();   
+            }else {
+              x = 0;
+              console.log("we made it too the for loop")
+             
+            }
+     
+      }
+    }
+         
+    
+
+
+
+
+
+
+
+
+
+
+//code for auto complete input box to get a place.
 $('#autocomplete').focus(function(){
 
   var mapOptions = {

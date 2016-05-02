@@ -169,6 +169,18 @@ div.right-content {
   color: white;
   margin-top: 0px;
 }
+.csv-btn {
+  text-align: center;
+  margin: auto;
+  height: 35px;
+  color: white;
+  font-size: 18px;
+  background: #9bcc5a;
+  border: none;
+  border-radius: 50px;
+  font-weight: lighter;
+  margin-left: 55px;
+}
 hr {
   border: 1px solid #E0E0E0;
   width: 100%;
@@ -195,3 +207,5 @@ footer {
   background: #667272;
  
 }
+/*
+posible color #005870;*/
