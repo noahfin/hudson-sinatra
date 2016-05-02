@@ -4,8 +4,8 @@
 html, body {
   height: 100%;
   margin: 0;
-  padding: 0;
-  background: #2C3E50;
+  padding: 0; 
+  background: #424242;
 }
 #page-wrapper {
   height: 100%;
@@ -52,6 +52,7 @@ html, body {
   margin: -1px 0px 10px;
   height: 60px;
   background: #00897B;
+  border-bottom: 4px solid #2C3E50;
 }
 input[type="text"] {
   margin-top: 8px;
@@ -60,8 +61,8 @@ input[type="text"] {
   height: 35px;
 }
 #bus-name , .main-contain {
-  margin-top: 10px;
-  height: 75%;
+  margin-top: 1px;
+  height: 81%;
 }
 .main-contain{
    width: 72%;
@@ -78,7 +79,7 @@ input[type="text"] {
   width: 20%;
   float: left;
   color: #95a5a6;
-  background:  #424242;
+  background:  #005870;
   z-index: 9999;
   margin-right: 45px;
   overflow: scroll;
@@ -97,7 +98,7 @@ input[type="text"] {
 .reveal-btn a {
   position: absolute;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: #FFEEF0;
   text-align: center;
   padding-top: 4px;
   width: 10px;
@@ -150,8 +151,10 @@ div.right-content {
 }
 .place-name p {
   margin: 0;
-  padding: 0;
-  margin-left: -15px;
+  padding: 0 0 5px 10px;
+  margin-left: -40px;
+  border-bottom: 1px solid #2C3E50;
+ 
 }
 .styled-select.slate select {
   border: 1px solid #ccc;
@@ -166,7 +169,6 @@ div.right-content {
 } 
 #bus-name h2 {
   text-align: center;
-  color: white;
   margin-top: 0px;
 }
 .csv-btn {
@@ -180,11 +182,10 @@ div.right-content {
   border: none;
   border-radius: 50px;
   font-weight: lighter;
-  margin-left: 30px;
-  margin-bottom: 20px;
+  margin: 15px 26px 25px 33px;
 }
 hr {
-  border: 1px solid #E0E0E0;
+  border: 1px solid #777;
   width: 100%;
 }  
 .lat, .lng , .place-id, .photo-id,.chnage-loc {
@@ -206,8 +207,42 @@ footer {
   height: 5%;
   width: 100%;
   bottom:  0;
-  background: #667272;
+  
  
+}
+
+@media (max-width: 1041px) {
+  body {
+    background:  #424242;
+  }
+  .main-contain{
+  margin-top: -15px;
+   margin-left: 0px;  
+  }
+  #bus-name {
+    margin-top: -20px;
+    padding-right: 5px;
+    margin-right: 10px;  
+  }
+  .wrapper {
+    width: 90%;
+  }
+  input[type="text"] {
+    margin-top: -2px;
+    width: 120%;
+    margin-left: -11px;
+    margin-bottom: -20px;
+  }
+  .styled-select.slate select {
+  border: 1px solid #ccc;
+  font-size: 16px;
+ text-align: center;
+ margin-left: -30px;
+  width: 545%;
+}
+
 }
 /*
 posible color #005870;*/
+
+
