@@ -1,6 +1,6 @@
 "use strict";
 (function () {
-  var placeDate = [ ];
+  var placeData = [ ];
   var currentLocation = {};
 
   
@@ -46,6 +46,7 @@ function getPlaceType(typeVal, addr) {
 
    	 $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
   function(json){
+      placeData = [];//reset the array back to empty
 		$.each(json.results, function( index, value ) {
         var $ul = $('<ul class="place-name"></ul>');
    		  var $p= $('<p class="h5"></p>');
@@ -53,7 +54,8 @@ function getPlaceType(typeVal, addr) {
    		  var $lng = $('<li class="lng"></li>')
    		  var $id = $('<li class="place-id"></li>')
         var $photo_id = $('<li class="photo-id"></li>')
-        
+
+       placeData[index] = {name: value.name, id: value.place_id}; //sets the place data
    		  $p.html(value.name);
         if (value.photos != undefined){
             console.log(value.photos[0].photo_reference);
@@ -208,7 +210,7 @@ $(document).on('click', '.place-name', getLocation);
       var marker = new google.maps.Marker(markerOptions);
       marker.setMap(map);      
 
-    var lat;
+   var lat;
    var lng;
    var typeVal = "art_gallery"
   if ( addr === undefined) {
@@ -216,7 +218,7 @@ $(document).on('click', '.place-name', getLocation);
      lng = -73.932648;
      console.log('Location is undefined, so it is using hardcododing! ');
      console.log(lat)
-  } else { // here is where we need to update placedata
+  } else { // here is where we update currentLocation data
      lat = addr.intLat
      lng = addr.intLng;
      currentLocation.lat = addr.intLat;
@@ -227,7 +229,7 @@ $(document).on('click', '.place-name', getLocation);
      $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
   function(json){
     $(".place-name").remove();
-    placeDate = [];
+    placeData = [];
     $.each(json.results, function( index, value ) {
     
         var $ul = $('<ul class="place-name"></ul>');
@@ -241,7 +243,7 @@ $(document).on('click', '.place-name', getLocation);
             console.log(value.photos[0].photo_reference);
            $photo_id.html(value.photos[0].photo_reference)
         }
-        placeDate[index] = {name: value.name, id: value.place_id};
+        placeData[index] = {name: value.name, id: value.place_id};
         $lat.html(value.geometry.location.lat);
         $lng.html(value.geometry.location.lng);
         $id.html(value.place_id);
@@ -275,30 +277,34 @@ $('body').on('click', '.csv-btn', loopArray);
     var csv = " ";  
     var x = 0;
     function loopArray() {
-    if (x !==20){ 
+     if (x !==20){ 
      if(x === 10 || x === 15) {
      setTimeout(function(){
 
       var request = {
-        placeId: placeDate[x].id
+        placeId: placeData[x].id
        };
      var service = new google.maps.places.PlacesService(map);
           service.getDetails(request, callback2);
 
      }, 2500);
      }
-    console.log(placeDate[x].id)
+    console.log(placeData[x].id)
     var request = {
-        placeId: placeDate[x].id
+        placeId: placeData[x].id
        };
      var service = new google.maps.places.PlacesService(map);
           service.getDetails(request, callback2);
           
     } else {
       console.log("we made it ");
+         var regex = new RegExp(',', 'g')
+         var name = '';
+         
        for (var i=0; i<addressArray.length; i++) {
-               
-                csv +=   placeDate[i].name+ "," + addressArray[i] + "\n"; 
+                name = placeData[i].name; 
+                name = name.replace(regex,'');
+                csv +=  name + "," + addressArray[i] + "\n"; 
                };
                console.log(csv);
                $("#dataLink").attr("href", 'data:Application/octet-stream,' + encodeURIComponent(csv))[0].click();
