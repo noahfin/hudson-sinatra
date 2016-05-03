@@ -167,10 +167,7 @@ $(document).on('click', '.place-name', getLocation);
     e.preventDefault()
    
     $( ".chnage-loc" ).slideDown( 1000, function() {
-      $( this )
-        .filter( ".middle" )
-          .css( "background", "yellow" )
-          .focus(); 
+       $('.change-search').css( "display", "block" );
     });
   });
 
@@ -179,10 +176,7 @@ $(document).on('click', '.place-name', getLocation);
     e.preventDefault()
    
     $( ".chnage-loc" ).slideUp( 1000, function() {
-      $( this )
-        .filter( ".middle" )
-        .css( "background", "yellow" )
-        .focus();
+      $('.change-search').css( "display", "none" );
    
     });
   });
@@ -338,14 +332,92 @@ $('body').on('click', '.csv-btn', loopArray);
          
     
 
+ function doRadarSearch(keyWords) {
+ initMap();
+var map;
+var infoWindow;
+var service;
+var latVal, lngVal;
+if ( currentLocation.lat === undefined) {
+     latVal= 41.65053;
+     lngVal = -73.932648;
+     console.log('Location is undefined, so it is using hardcododing! ');
+  } else {
+     latVal = currentLocation.lat;
+     lngVal = currentLocation.lng;
+  }
 
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 41.65053, lng: -73.932648},
+    zoom: 15,
+    styles: [{
+      stylers: [{ visibility: 'simplified' }]
+    }, {
+      elementType: 'labels',
+      stylers: [{ visibility: 'off' }]
+    }]
+  });
 
+  infoWindow = new google.maps.InfoWindow();
+  service = new google.maps.places.PlacesService(map);
 
+  // The idle event is a debounced event, so we can query & listen without
+  // throwing too many requests at the server.
+  map.addListener('idle', performSearch);
+}
 
+function performSearch() {
+  console.log(keyWords);
+  var request = {
+    bounds: map.getBounds(),
+    keyword:  keyWords
+  };
+  service.radarSearch(request, callback);
+}
 
+function callback(results, status) {
+  if (status !== google.maps.places.PlacesServiceStatus.OK) {
+    console.error(status);
+    return;
+  }
+  for (var i = 0, result; result = results[i]; i++) {
+    addMarker(result);
+  }
+}
 
+function addMarker(place) {
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location,
+    icon: {
+      url: 'http://maps.gstatic.com/mapfiles/circle.png',
+      anchor: new google.maps.Point(10, 10),
+      scaledSize: new google.maps.Size(10, 17)
+    }
+  });
 
+  google.maps.event.addListener(marker, 'click', function() {
+    service.getDetails(place, function(result, status) {
+      if (status !== google.maps.places.PlacesServiceStatus.OK) {
+        console.error(status);
+        return;
+      }
+      infoWindow.setContent(result.name + '<br><br>' +result.formatted_address + '<br><br>' + result.formatted_phone_number );
+      infoWindow.open(map, marker);
+    });
+  });
+}
+ }
 
+  $('.change-search').on('click', function(e){
+      e.preventDefault();
+     var $string = $('#location-input').val();
+     console.log($string);
+     doRadarSearch($string );
+  });
+
+   
 
 //code for auto complete input box to get a place.
 $('#autocomplete').focus(function(){

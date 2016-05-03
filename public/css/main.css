@@ -76,6 +76,7 @@ input[type="text"] {
  width: 100%;
 }
 #bus-name {
+  position: relative;
   list-style: none;
   width: 20%;
   float: left;
@@ -85,9 +86,17 @@ input[type="text"] {
   margin-right: 45px;
   overflow: scroll;
 }
+.change-search {
+  text-align: center;
+  color: #ddd;
+  margin: auto;
+  display: block;
+  width: 50%;
+  padding-top: 5px;
+
+}
 .reveal-btn {
-  position: relative;
-  right: 0;
+  position: absolute;
   top: 0;
   width: 20px;
   height: 20px;
@@ -95,6 +104,7 @@ input[type="text"] {
 }
 .right{
   float: right;
+  right: 0;
 }
 .reveal-btn a {
   position: absolute;
@@ -115,10 +125,9 @@ input[type="text"] {
 .change-loc-in ,.change-loc-submit{
   width: 100%;
 }
-
 #location-input{
   overflow: scroll;
-   width: 100.5%;
+  width: 100.5%;
 }
 .change-loc-submit {
   padding: 0;
@@ -131,8 +140,7 @@ input[type="text"] {
   background: #008b8b;
   color: white;
   font-size: 20px;
-  border: none;
- 
+  border: none; 
 }
 .left-content,  .right-content{
   margin-top: 5px;
@@ -189,10 +197,9 @@ hr {
   border: 1px solid #777;
   width: 100%;
 }  
-.lat, .lng , .place-id, .photo-id,.chnage-loc {
+.lat, .lng , .place-id, .photo-id, .chnage-loc, .change-search{ 
   display: none;
 }
-
 .photos {
  position: absolute;
  top: 0;
