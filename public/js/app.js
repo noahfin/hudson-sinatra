@@ -79,6 +79,7 @@ function getPlaceType(typeVal, addr) {
 
 
  	$('.type-select').change(function(){
+     placeData = [];
  		$(".place-name").remove();
  		 getPlaceType($(this).val());
  	})
