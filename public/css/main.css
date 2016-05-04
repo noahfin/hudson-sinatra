@@ -54,7 +54,7 @@ html, body {
   background: #008b8b;
   border-bottom: 4px solid #2C3E50;
 }
-input[type="text"] {
+#autocomplete {
   margin-top: 8px;
   width: 92%;
   padding-left: 10px;
@@ -82,7 +82,7 @@ input[type="text"] {
   float: left;
   color: #95a5a6;
   background:  #005870;
-  z-index: 9999;
+  z-index: 0;
   margin-right: 45px;
   overflow: scroll;
 }
@@ -93,6 +93,7 @@ input[type="text"] {
   display: block;
   width: 50%;
   padding-top: 5px;
+  margin-bottom: 5px;
 
 }
 .reveal-btn {
@@ -242,11 +243,16 @@ hr {
    width: 70%;
    border: none;
   }
-
+  .chnage-loc {
+   width: 100%;
+  }
+  #location-input {
+ 
+  width: 34.58vw;
+  }
   div#bus-name {
     margin: 0;
     width: 30%;
-   
   }
    div#bus-name, .main-contain{ 
      margin-top: -25px;
@@ -256,11 +262,18 @@ hr {
     padding: 0;
     margin: 0;
   }
-  input[type="text"] {
+  #autocomplete{
     margin-top: -2px;
     width: 138.4%;
     margin-left: -42px;
     margin-bottom: -20px;
+  }
+  .chnage-loc {
+   width: 100%;
+  }
+  #location-input {
+ 
+  width: 100%;
   }
   .styled-select.slate select {
     font-size: 16px;
