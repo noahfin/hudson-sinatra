@@ -146,8 +146,8 @@ $(document).on('click', '.place-name', getLocation);
           });
 
 				var infoWindowOptions = {
-					content:  place.name +place.formatted_address + '<br><br>' + place.formatted_phone_number
-				};
+					content:  place.name +place.formatted_address + '<br><br>' +'<a href="tel:+' +place.formatted_phone_number +'">'+ place.formatted_phone_number + '</a><br>'  
+				}
 				var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 				google.maps.event.addListener(marker,'click',function(e){
 					infoWindow.open(map, marker);
@@ -169,8 +169,7 @@ $(document).on('click', '.place-name', getLocation);
       $('.change-search').css( "display", "none" );
     });
   });
-  
-  
+   
 
   $('.send-btn').on('click', function() {
     var $location = $('#location-input').val();
@@ -296,7 +295,7 @@ $('body').on('click', '.csv-btn', loopArray);
       placeData[x].name = place.name;
       addressArray.push(place.formatted_address);
         if(x !== addressArray.length) {
-            console.log(x);
+            console.log(x);+
             x++;
             loopArray();   
           }else {
@@ -315,6 +314,7 @@ function doRadarSearch(keyWords) {
   var infoWindow;
   var service;
   var latVal, lngVal;
+  placeData = [];
   
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -374,7 +374,7 @@ function doRadarSearch(keyWords) {
           console.error(status);
           return;
         }
-        infoWindow.setContent(result.name + '<br><br>' +result.formatted_address + '<br><br>' + result.formatted_phone_number );
+        infoWindow.setContent( '<div><strong>' + result.name + '</strong><br>' +'<a href="tel:+' +result.formatted_phone_number +'">'+ result.formatted_phone_number + '</a><br>' );
         infoWindow.open(map, marker);
       });
     });
@@ -422,7 +422,7 @@ $('#autocomplete').focus(function(){
       map.setZoom(17);
     }
     marker.setPosition(place.geometry.location);
-    infoWindow.setContent('<div><strong>' + place.name + '</strong><br>');
+    infoWindow.setContent('<div><strong>' + place.name + '</strong><br>' +'<a href="tel:+' +place.formatted_phone_number +'">'+ place.formatted_phone_number + '</a><br>');
     infoWindow.open(map, marker);
     google.maps.event.addListener(marker,'click',function(e){
 
