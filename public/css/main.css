@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Playfair+Display);
 * {
     box-sizing: border-box;
 }
@@ -6,6 +7,7 @@ html, body {
   margin: 0;
   padding: 0; 
   background: #424242;
+  font-family: 'Playfair Display', serif;
 }
 #page-wrapper {
   height: 100%;
@@ -30,11 +32,14 @@ html, body {
   list-style: none;
   margin-bottom: 10px;
 }
+.main-header {
+  padding-top: 15px;
+}
 .main-nav li  {
   display: inline;
 }
 .main-nav h1 {
-  margin-top:  0px;
+  margin-top: -20px;
   display: inline-block;
 }
 .main-nav .nav-links {
@@ -54,11 +59,13 @@ html, body {
   background: #008b8b;
   border-bottom: 4px solid #2C3E50;
 }
-#autocomplete {
+#location-input, #autocomplete {
   margin-top: 8px;
-  width: 92%;
   padding-left: 10px;
   height: 35px;
+}
+#autocomplete {
+  width: 92%;
 }
 #bus-name , .main-contain {
   margin-top: 1px;
@@ -127,7 +134,7 @@ html, body {
   width: 100%;
 }
 #location-input{
-  overflow: scroll;
+  padding-left: 6px;
   width: 100.5%;
 }
 .change-loc-submit {
@@ -296,8 +303,15 @@ hr {
     margin-left: -4px;
     width:97vw;
   }
+  .last-link,  .main-nav, .container{
+    margin-right: 0;
+    padding-right: 0
+  }
+  .nav-links {
+    margin-right:  -20px;
+  }
   .main-nav .nav-links  a {
-    padding: 5px 20px 0px 5px;
+    padding: 5px 20px 0px 0px;
     margin-left: -15px;
     padding-top: 10px;
   }
@@ -309,12 +323,7 @@ hr {
     width: 100%;
     padding-left: 5px;
   }
-  .main-header {
-    padding-top: 15px;
-  }
-  .main-nav h1 {
-    margin-top: -10px;
-  }
+  
 }
 
 
