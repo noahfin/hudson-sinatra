@@ -204,56 +204,56 @@ $(document).on('click', '.place-name', getLocation);
       var marker = new google.maps.Marker(markerOptions);
       marker.setMap(map);      
 
-   var lat;
-   var lng;
-   var typeVal = "art_gallery"
-  if ( addr === undefined) {
-     lat = 41.65053;
-     lng = -73.932648;
-     console.log('Location is undefined, so it is using hardcododing! ');
-     console.log(lat)
-  } else { // here is where we update currentLocation data
-     lat = addr.intLat
-     lng = addr.intLng;
-     currentLocation.lat = addr.intLat;
-     currentLocation.lng = addr.intLng;
+     var lat;
+     var lng;
+     var typeVal = "art_gallery"
+      if ( addr === undefined) {
+       lat = 41.65053;
+       lng = -73.932648;
+       console.log('Location is undefined, so it is using hardcododing! ');
+       console.log(lat)
+      } else { // here is where we update currentLocation data
+       lat = addr.intLat
+       lng = addr.intLng;
+       currentLocation.lat = addr.intLat;
+       currentLocation.lng = addr.intLng;
 
-  }
-    
-     $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
-  function(json){
-    $(".place-name").remove();
-    placeData = [];
-    $.each(json.results, function( index, value ) {
-    
-        var $ul = $('<ul class="place-name"></ul>');
-        var $p= $('<p class="h5"></p>');
-        var $lat = $('<li class="lat"></li>');
-        var $lng = $('<li class="lng"></li>')
-        var $id = $('<li class="place-id"></li>')
-        var $photo_id = $('<li class="photo-id"></li>')
-        $p.html(value.name);
-        if (value.photos != undefined){
-            console.log(value.photos[0].photo_reference);
-           $photo_id.html(value.photos[0].photo_reference)
-        }
-        placeData[index] = {name: value.name, id: value.place_id};
-        $lat.html(value.geometry.location.lat);
-        $lng.html(value.geometry.location.lng);
-        $id.html(value.place_id);
-        $ul.append($p);
-        $ul.append($lat);
-        $ul.append($lng);
-        $ul.append($id);
-        $ul.append($photo_id);
-        $('#bus-name').append($ul);
+      }
+      
+      $.post('place', { type: typeVal, lat: lat,  lng: lng}, 
+        function(json){
+          $(".place-name").remove();
+          placeData = [];
+          $.each(json.results, function( index, value ) {
+          
+          var $ul = $('<ul class="place-name"></ul>');
+          var $p= $('<p class="h5"></p>');
+          var $lat = $('<li class="lat"></li>');
+          var $lng = $('<li class="lng"></li>')
+          var $id = $('<li class="place-id"></li>')
+          var $photo_id = $('<li class="photo-id"></li>')
+          $p.html(value.name);
+          if (value.photos != undefined){
+              console.log(value.photos[0].photo_reference);
+             $photo_id.html(value.photos[0].photo_reference)
+          }
+          placeData[index] = {name: value.name, id: value.place_id};
+          $lat.html(value.geometry.location.lat);
+          $lng.html(value.geometry.location.lng);
+          $id.html(value.place_id);
+          $ul.append($p);
+          $ul.append($lat);
+          $ul.append($lng);
+          $ul.append($id);
+          $ul.append($photo_id);
+          $('#bus-name').append($ul);
 
-    })
-      addCsvButton(); 
+          })
+         addCsvButton(); 
+        });
+
+      })
    });
-
-  })
-  });
  
  function addCsvButton() {
   if ( $('.csv-btn')){
@@ -331,84 +331,87 @@ $('body').on('click', '.csv-btn', loopArray);
     }
          
     
+function doRadarSearch(keyWords) {
+  console.log('we are doing search')
+  console.log(currentLocation.lat);
+  console.log(currentLocation.lng);
 
- function doRadarSearch(keyWords) {
- initMap();
-var map;
-var infoWindow;
-var service;
-var latVal, lngVal;
-if ( currentLocation.lat === undefined) {
-     latVal= 41.65053;
-     lngVal = -73.932648;
-     console.log('Location is undefined, so it is using hardcododing! ');
-  } else {
-     latVal = currentLocation.lat;
-     lngVal = currentLocation.lng;
-  }
-
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 41.65053, lng: -73.932648},
-    zoom: 15,
-    styles: [{
-      stylers: [{ visibility: 'simplified' }]
-    }, {
-      elementType: 'labels',
-      stylers: [{ visibility: 'off' }]
-    }]
-  });
-
-  infoWindow = new google.maps.InfoWindow();
-  service = new google.maps.places.PlacesService(map);
-
-  // The idle event is a debounced event, so we can query & listen without
-  // throwing too many requests at the server.
-  map.addListener('idle', performSearch);
-}
-
-function performSearch() {
-  console.log(keyWords);
-  var request = {
-    bounds: map.getBounds(),
-    keyword:  keyWords
-  };
-  service.radarSearch(request, callback);
-}
-
-function callback(results, status) {
-  if (status !== google.maps.places.PlacesServiceStatus.OK) {
-    console.error(status);
-    return;
-  }
-  for (var i = 0, result; result = results[i]; i++) {
-    addMarker(result);
-  }
-}
-
-function addMarker(place) {
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location,
-    icon: {
-      url: 'http://maps.gstatic.com/mapfiles/circle.png',
-      anchor: new google.maps.Point(10, 10),
-      scaledSize: new google.maps.Size(10, 17)
+  initMap();
+  var map;
+  var infoWindow;
+  var service;
+  var latVal, lngVal;
+  if ( currentLocation.lat === undefined) {
+       latVal= 41.65053;
+       lngVal = -73.932648;
+       console.log('Location is undefined, so it is using hardcododing! ');
+    } else {
+       latVal = parseFloat(currentLocation.lat);
+       lngVal = parseFloat(currentLocation.lng);
     }
-  });
 
-  google.maps.event.addListener(marker, 'click', function() {
-    service.getDetails(place, function(result, status) {
-      if (status !== google.maps.places.PlacesServiceStatus.OK) {
-        console.error(status);
-        return;
-      }
-      infoWindow.setContent(result.name + '<br><br>' +result.formatted_address + '<br><br>' + result.formatted_phone_number );
-      infoWindow.open(map, marker);
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: currentLocation.lat, lng: currentLocation.lng},
+      zoom: 15,
+      styles: [{
+        stylers: [{ visibility: 'simplified' }]
+      }, {
+        elementType: 'labels',
+        stylers: [{ visibility: 'off' }]
+      }]
     });
-  });
+
+    infoWindow = new google.maps.InfoWindow();
+    service = new google.maps.places.PlacesService(map);
+
+    // The idle event is a debounced event, so we can query & listen without
+    // throwing too many requests at the server.
+    map.addListener('idle', performSearch);
+  }
+
+  function performSearch() {
+    console.log(keyWords);
+    var request = {
+      bounds: map.getBounds(),
+      keyword:  keyWords
+    };
+    service.radarSearch(request, callback);
+  }
+
+  function callback(results, status) {
+    if (status !== google.maps.places.PlacesServiceStatus.OK) {
+      console.error(status);
+      return;
+    }
+    for (var i = 0, result; result = results[i]; i++) {
+      addMarker(result);
+    }
+  }
+
+  function addMarker(place) {
+    var marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location,
+      icon: {
+        url: 'http://maps.gstatic.com/mapfiles/circle.png',
+        anchor: new google.maps.Point(10, 10),
+        scaledSize: new google.maps.Size(10, 17)
+      }
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+      service.getDetails(place, function(result, status) {
+        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+          console.error(status);
+          return;
+        }
+        infoWindow.setContent(result.name + '<br><br>' +result.formatted_address + '<br><br>' + result.formatted_phone_number );
+        infoWindow.open(map, marker);
+      });
+    });
+  }
 }
- }
 
   $('.change-search').on('click', function(e){
       e.preventDefault();
