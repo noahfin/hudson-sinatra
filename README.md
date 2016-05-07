@@ -1,5 +1,5 @@
 # hudson-sinatra
-This is an app to build markting list's of companies base on geographical location and bussiness types. It using ruby and [Sinatra](http://www.sinatrarb.com/) for the backdend and javascrip with [Google places ](https://developers.google.com/places/) API to make the magic happen on the front-end.
+This is an app to build markting list's of companies base on geographical location and bussiness types. It using ruby and [Sinatra](http://www.sinatrarb.com/) for the backdend and javascript with [Google places ](https://developers.google.com/places/) API to make the magic happen on the front-end.
 
 ## Running Locally
 
