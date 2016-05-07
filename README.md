@@ -19,7 +19,7 @@ open ~/.bash_profile
 ```
 At the bottom of the document add.
 ```
-export PLACES_KEY="YOUR API KEY PAST INSIDE THE QUOTES"
+export PLACES_KEY="YOUR API KEY PASTE INSIDE THE QUOTES"
 
 ```
 Save the file and quit.
