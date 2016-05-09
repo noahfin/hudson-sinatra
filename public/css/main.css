@@ -294,9 +294,8 @@ hr {
     float: right;
   }
   .csv-btn {
-    width: 100%;
-    margin-left: 1px;
-    margin-right: 1px;
+    width: 60%;
+   text-align: center;
 }
 @media (max-width: 576px) {
   .styled-select.slate select {
@@ -323,6 +322,11 @@ hr {
   .container {
     width: 100%;
     padding-left: 5px;
+  }
+  .csv-btn {
+    width: 100%;
+    margin-left: 0;
+   
   }
   
 }

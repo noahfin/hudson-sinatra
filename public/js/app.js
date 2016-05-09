@@ -254,36 +254,50 @@ $('body').on('click', '.csv-btn', loopArray);
     var name;
     var id;
     var address; 
-    var addressArray = []
+    var addressArray = [];
+    var detailsArray = [];
     var csv = " ";  
     var x = 0;
     function loopArray() {
      if (x !== placeData.length){ 
      if(x % 5 === 0 ) {
      setTimeout(function(){
-
-      var request = {
-        placeId: placeData[x].id
-       };
-     var service = new google.maps.places.PlacesService(map);
-          service.getDetails(request, callback2);
+      if (placeData[x] !== undefined){
+        var request = {
+          placeId: placeData[x].id
+         };
+        var service = new google.maps.places.PlacesService(map);
+            service.getDetails(request, callback2);
+      } 
 
      }, 2500);
      }
+
     var request = {
         placeId: placeData[x].id
        };
      var service = new google.maps.places.PlacesService(map);
           service.getDetails(request, callback2);
-          
+        
     } else {
          var regex = new RegExp(',', 'g')
          var name = '';
          
        for (var i=0; i<addressArray.length; i++) {
+                var number, website = '';
+                if (detailsArray[i].number !== undefined) {
+                  number = detailsArray[i].number;
+                }
+                if (detailsArray[i].website !== undefined) {
+                  website = detailsArray[i].website;
+                }
+
+                console.log(detailsArray[i].number);
+
+                console.log(detailsArray[i].website);
                 name = placeData[i].name; 
-                name = name.replace(regex,'');
-                csv +=  name + "," + addressArray[i] + "\n"; 
+                name = name.replace(regex,''); 
+                csv +=  name + "," + addressArray[i] + "," + number + "," + website +"\n"; 
                };
             
                $("#dataLink").attr("href", 'data:Application/octet-stream,' + encodeURIComponent(csv))[0].click();
@@ -295,6 +309,7 @@ $('body').on('click', '.csv-btn', loopArray);
     if (status == google.maps.places.PlacesServiceStatus.OK){
       placeData[x].name = place.name;
       addressArray.push(place.formatted_address);
+      detailsArray.push({address: place.formatted_address, number: place.formatted_phone_number, website: place.website })
         if(x !== addressArray.length) {
             console.log(x);+
             x++;
@@ -355,6 +370,7 @@ function doRadarSearch(keyWords) {
       addMarker(result);
        console.log(result.place_id);
        placeData[i] = {name: undefined, id: result.place_id}; //sets the place data
+       console.log(placeData[i].id)
     }
   }
 
@@ -373,9 +389,11 @@ function doRadarSearch(keyWords) {
       service.getDetails(place, function(result, status) {
         if (status !== google.maps.places.PlacesServiceStatus.OK) {
           console.error(status);
+
           return;
         }
-        infoWindow.setContent( '<div><strong>' + result.name + '</strong><br>' +'<a href="tel:+' +result.formatted_phone_number +'">'+ result.formatted_phone_number + '</a><br>' );
+
+        infoWindow.setContent( '<div><strong>' + result.name + '</strong><br>' +'<a href="tel:+' +result.formatted_phone_number +'">'+ result.formatted_phone_number + '</a><br>'+ result.website + '</a><br>'  );
         infoWindow.open(map, marker);
       });
     });
