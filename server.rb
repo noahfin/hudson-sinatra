@@ -3,7 +3,7 @@ module  Hudson
 
 
 		get "/" do 
-			@key = ENV['PLACES_KEY']
+
 			erb :index
 
 		end 
